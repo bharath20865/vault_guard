@@ -4,6 +4,46 @@
 <meta name="theme-color" content="#080b18"><meta name="description" content="Check password strength and generate stronger passwords privately with Vault Guard.">
 <title>Vault Guard | Password Studio</title><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./icon.svg">
 <style>
+
+/* GLITCH guardian + richer colour system */
+:root{--pink:#ff8fbd;--blue:#70a9ff;--orange:#ffad76;--lime:#a8f078}
+body{background:radial-gradient(ellipse at 10% 8%,#754bce44,transparent 33%),radial-gradient(ellipse at 91% 20%,#168caa3c,transparent 29%),radial-gradient(ellipse at 52% 100%,#9c397d20,transparent 38%),var(--bg)}
+.card{background:linear-gradient(145deg,#211c49e8,#10263be8);border-color:#9f9cff35}
+.card:nth-child(2){background:linear-gradient(145deg,#142d4ae8,#25153fe8)}
+.btn:not(.primary):hover{background:linear-gradient(110deg,#9b8cff2e,#70dce02e,#ff8fbd20)}
+.guardian{--mood:#a697ff;position:relative;display:flex;align-items:center;gap:24px;min-height:158px;margin:4px 0 18px;padding:17px 24px;border:1px solid color-mix(in srgb,var(--mood) 48%,transparent);border-radius:23px;overflow:hidden;background:linear-gradient(105deg,color-mix(in srgb,var(--mood) 18%,#11172f),#11172feF 58%,#18294b);box-shadow:0 15px 48px #0004;transition:background .4s,border-color .4s,box-shadow .4s}
+.guardian:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 20%,#ffffff08 50%,transparent 75%);transform:translateX(-100%);animation:guardianShine 8s ease-in-out infinite}
+@keyframes guardianShine{50%,100%{transform:translateX(100%)}}
+.guardian-art{position:relative;flex:none;width:126px;height:126px;display:grid;place-items:center}
+.guardian-halo{position:absolute;width:110px;height:110px;border-radius:50%;background:var(--mood);opacity:.17;filter:blur(19px);transition:background .4s;animation:haloPulse 3s ease-in-out infinite}
+@keyframes haloPulse{50%{transform:scale(1.22);opacity:.27}}
+.glitch{position:relative;width:124px;overflow:visible;filter:drop-shadow(0 8px 13px #0005);animation:glitchFloat 3.4s ease-in-out infinite;transition:filter .3s}
+@keyframes glitchFloat{0%,100%{transform:translateY(1px) rotate(-2deg)}50%{transform:translateY(-7px) rotate(2deg)}}
+.guardian[data-mood="angry"]{--mood:#ff637d;box-shadow:0 15px 48px #ff36551a}
+.guardian[data-mood="fair"]{--mood:#ffc65e}
+.guardian[data-mood="strong"]{--mood:#5ce0a2}
+.guardian[data-mood="idle"]{--mood:#a697ff}
+.guardian-kicker{display:flex;align-items:center;gap:8px;color:var(--mood);font-size:.66rem;letter-spacing:.14em;font-weight:850}
+.guardian-live{width:7px;height:7px;border-radius:50%;background:var(--mood);box-shadow:0 0 12px var(--mood)}
+.guardian-copy{position:relative;z-index:1;min-width:0}
+.guardian-copy h2{font-size:1.35rem;letter-spacing:-.04em;margin:7px 0 5px}.guardian-copy h2 span{background:linear-gradient(90deg,var(--mood),#8eddf5);color:transparent;background-clip:text}
+.guardian-copy p{max-width:540px;margin:0;color:#c1c9e5;font-size:.82rem;line-height:1.55}
+.guardian-status{display:flex;align-items:center;gap:10px;margin-top:12px;color:#8996ba;font-size:.61rem;letter-spacing:.09em;font-weight:750}
+.guardian-status #guardianMood{color:var(--mood)}
+.guardian-divider{height:12px;width:1px;background:#ffffff35}
+.guardian-stamp{position:absolute;right:23px;top:19px;color:#ffffff18;font-size:2.5rem;line-height:.8;font-weight:950;text-align:center;transform:rotate(9deg)}
+.guardian-stamp small{font-size:.44rem;letter-spacing:.16em;line-height:1.4}
+.guardian[data-mood="angry"] .glitch{animation:glitchAngry .38s ease-in-out 2}
+@keyframes glitchAngry{0%,100%{transform:translateX(0) rotate(0)}25%{transform:translateX(-4px) rotate(-4deg)}75%{transform:translateX(4px) rotate(4deg)}}
+.guardian[data-mood="angry"] .brow-left{d:path("M52 68q12-13 24-4")}.guardian[data-mood="angry"] .brow-right{d:path("M84 64q12-8 24 7")}
+.guardian[data-mood="angry"] .mouth{d:path("M68 104q12-11 25 0")}
+.guardian[data-mood="fair"] .brow-left,.guardian[data-mood="fair"] .brow-right{transform:translateY(3px)}
+.guardian[data-mood="fair"] .mouth{d:path("M69 102q12-1 24 0")}
+.guardian[data-mood="strong"] .mouth{d:path("M65 94q15 19 31 0")}
+.guardian[data-mood="strong"] .glitch{filter:drop-shadow(0 0 15px #5ce0a277)}
+@media(max-width:600px){.guardian{gap:10px;padding:14px 15px;min-height:145px}.guardian-art{width:98px;height:112px}.glitch{width:105px}.guardian-stamp{display:none}.guardian-copy h2{font-size:1.18rem}.guardian-copy p{font-size:.76rem}.guardian-status{font-size:.53rem;gap:7px}}
+@media(prefers-reduced-motion:reduce){.guardian:after,.guardian-halo,.glitch{animation:none!important}}
+
 :root{color-scheme:dark;--bg:#080b18;--panel:#151b38;--line:#303858;--muted:#9ca6c8;--violet:#a697ff;--cyan:#70e3dc;--green:#5ce0a2;--red:#ff718d;--yellow:#ffd166}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;color:#f4f5ff;background:radial-gradient(ellipse at 12% 8%,#493a8a55,transparent 34%),radial-gradient(ellipse at 90% 24%,#167c7950,transparent 30%),var(--bg);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;overflow-x:hidden}
 body:before{content:"";position:fixed;inset:0;z-index:-1;opacity:.18;background-image:linear-gradient(#ffffff08 1px,transparent 1px),linear-gradient(90deg,#ffffff08 1px,transparent 1px);background-size:48px 48px;mask-image:linear-gradient(#000,transparent 85%)}
@@ -27,6 +67,33 @@ footer{display:flex;justify-content:space-between;gap:14px;padding:18px 0 28px;b
 <body><div class="orb o1"></div><div class="orb o2"></div><div class="wrap">
 <header><div class="brand"><div class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2.8 20 6v5.3c0 5.1-3.4 8.4-8 10-4.6-1.6-8-4.9-8-10V6l8-3.2Z"/><path d="m8.7 12 2.1 2.1 4.6-4.7"/></svg></div>Vault Guard <small>/ security studio</small></div><div class="pill"><i class="dot"></i> 100% local processing</div></header>
 <section class="hero"><div class="eyebrow">✦ YOUR DIGITAL LIFE DESERVES BETTER</div><h1>Make weak passwords<br><span class="gradient">a thing of the past.</span></h1><p>Check your password strength, uncover weak spots, and create a stronger one. Your password stays right here on your device.</p></section>
+
+<section class="guardian" id="guardian" data-mood="idle" aria-live="polite">
+  <div class="guardian-art">
+    <div class="guardian-halo"></div>
+    <svg class="glitch" viewBox="0 0 160 150" role="img" aria-label="Glitch, your password security guardian">
+      <defs><linearGradient id="glitchFill" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b5a1ff"/><stop offset=".55" stop-color="#65dff0"/><stop offset="1" stop-color="#ff9ac2"/></linearGradient><filter id="glow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+      <path class="antenna" d="M80 23V11m0 0-8-6m8 6 8-6" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+      <circle class="antenna-dot" cx="80" cy="8" r="5" fill="#fff"/>
+      <path class="body" d="M38 55Q38 31 63 31h34q25 0 25 24v44q0 24-25 24H63q-25 0-25-24Z" fill="url(#glitchFill)" stroke="#fff" stroke-opacity=".55" stroke-width="2" filter="url(#glow)"/>
+      <path class="ear" d="m39 65-14-8v25l14-5m82-12 14-8v25l-14-5" fill="#9b8cff" stroke="#fff" stroke-opacity=".4" stroke-width="2"/>
+      <path class="brow brow-left" d="M52 65q12-9 24-1" fill="none" stroke="#22213c" stroke-width="5" stroke-linecap="round"/>
+      <path class="brow brow-right" d="M84 64q12-8 24 1" fill="none" stroke="#22213c" stroke-width="5" stroke-linecap="round"/>
+      <ellipse class="eye" cx="65" cy="78" rx="7" ry="9" fill="#17152e"/><ellipse class="eye" cx="96" cy="78" rx="7" ry="9" fill="#17152e"/>
+      <circle cx="67" cy="75" r="2.3" fill="#fff"/><circle cx="98" cy="75" r="2.3" fill="#fff"/>
+      <path class="mouth" d="M68 99q12 11 25 0" fill="none" stroke="#24203d" stroke-width="4" stroke-linecap="round"/>
+      <path d="M56 113q24 13 48 0" fill="none" stroke="#fff" stroke-opacity=".65" stroke-width="2" stroke-linecap="round"/>
+      <path class="spark" d="m24 35 4 8 8 4-8 4-4 8-4-8-8-4 8-4Zm112 55 3 6 6 3-6 3-3 6-3-6-6-3 6-3Z" fill="#fff"/>
+    </svg>
+  </div>
+  <div class="guardian-copy">
+    <div class="guardian-kicker"><span class="guardian-live"></span> YOUR SECURITY GUARDIAN</div>
+    <h2>Meet <span>GLITCH</span></h2>
+    <p id="guardianMessage">I'm awake. Drop a password into the scanner and let's see what you've got.</p>
+    <div class="guardian-status"><span id="guardianMood">MOOD: IDLE</span><span class="guardian-divider"></span><span>LEVEL 01 · PASSWORD PATROL</span></div>
+  </div>
+  <div class="guardian-stamp">G<br><small>AI-ish<br>GUARD</small></div>
+</section>
 <main class="grid">
 <section class="card"><div class="inner"><div class="head"><div><h2>Password health check</h2><p class="sub">A quick checkup for your digital front door.</p></div><span class="num">01 / CHECK</span></div>
 <label for="password">Enter a password to test</label><div class="field"><input id="password" type="password" autocomplete="off" spellcheck="false" placeholder="Type something secret..."><button class="iconbtn" id="toggle" aria-label="Show or hide password">◉</button></div>
@@ -45,7 +112,8 @@ footer{display:flex;justify-content:space-between;gap:14px;padding:18px 0 28px;b
 <div class="toast" id="toast" role="status"></div><div class="modalbg" id="modalbg" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal"><h3 id="modalTitle">Your privacy comes first</h3><p>Vault Guard checks passwords locally in this browser. It does not send your password to a server or save it. The strength score is an educational estimate, not a guarantee that a password has never been exposed in a data breach.</p><p><b>Good habits:</b> use a unique password for every account, prefer a password manager, turn on multi-factor authentication, and never share your passwords.</p><button class="btn primary" id="close">Got it</button></div></div>
 <script>
 const $=id=>document.getElementById(id),pw=$('password'),common=/password|qwerty|123456|123123|admin|letmein|welcome|iloveyou|abc123/i,pattern=s=>common.test(s)||/(.)\1{3,}/.test(s)||/0123|1234|2345|abcd|qwer/i.test(s);
-function evaluate(v){const t={length:v.length>=12,upper:/[A-Z]/.test(v),lower:/[a-z]/.test(v),number:/\d/.test(v),symbol:/[^A-Za-z0-9]/.test(v),common:v.length>0&&!pattern(v)};Object.entries(t).forEach(([k,ok])=>$('c-'+k).classList.toggle('ok',ok));if(!v){$('strength').textContent='Waiting for input';$('strength').style.color='';$('feedback').innerHTML='✧ <span>Enter a password and your security check will appear here.</span>';$('meter').querySelectorAll('i').forEach(x=>x.classList.remove('on'));return}let score=Object.values(t).filter(Boolean).length+(v.length>=16?1:0);if(pattern(v))score=Math.min(score,2);const level=score<=2?1:score<=4?2:score<=5?3:4,labels=['Very weak','Weak','Fair','Strong'],colors=['#ff718d','#ff9b72','#ffd166','#5ce0a2'];$('strength').textContent=labels[level-1];$('strength').style.color=colors[level-1];$('meter').querySelectorAll('i').forEach((x,i)=>{x.classList.toggle('on',i<level);x.style.setProperty('--tone',colors[level-1])});const msg=pattern(v)?'This password contains a common word or predictable pattern. Try something less guessable.':level===4?'Nice progress. Make sure this password is unique to one account and stored safely.':'Add missing character types and length. A longer, unique passphrase is often easier to remember.';$('feedback').innerHTML='✦ <span>'+msg+'</span>'}
+function setGuardian(mood,message){const g=$('guardian');if(!g)return;g.dataset.mood=mood;$('guardianMood').textContent='MOOD: '+mood.toUpperCase();$('guardianMessage').textContent=message}
+function evaluate(v){const t={length:v.length>=12,upper:/[A-Z]/.test(v),lower:/[a-z]/.test(v),number:/\d/.test(v),symbol:/[^A-Za-z0-9]/.test(v),common:v.length>0&&!pattern(v)};Object.entries(t).forEach(([k,ok])=>$('c-'+k).classList.toggle('ok',ok));if(!v){$('strength').textContent='Waiting for input';$('strength').style.color='';$('feedback').innerHTML='✧ <span>Enter a password and your security check will appear here.</span>';$('meter').querySelectorAll('i').forEach(x=>x.classList.remove('on'));setGuardian('idle',"I'm awake. Drop a password into the scanner and let's see what you've got.");return}let score=Object.values(t).filter(Boolean).length+(v.length>=16?1:0);if(pattern(v))score=Math.min(score,2);const level=score<=2?1:score<=4?2:score<=5?3:4,labels=['Very weak','Weak','Fair','Strong'],colors=['#ff637d','#ff9b72','#ffc65e','#5ce0a2'];$('strength').textContent=labels[level-1];$('strength').style.color=colors[level-1];$('meter').querySelectorAll('i').forEach((x,i)=>{x.classList.toggle('on',i<level);x.style.setProperty('--tone',colors[level-1])});const msg=pattern(v)?'This password contains a common word or predictable pattern. Try something less guessable.':level===4?'Nice progress. Make sure this password is unique to one account and stored safely.':'Add missing character types and length. A longer, unique passphrase is often easier to remember.';$('feedback').innerHTML='✦ <span>'+msg+'</span>';if(level===1||level===2)setGuardian('angry',"HEY! That password is way too easy to guess. Give me something tougher!");else if(level===3)setGuardian('fair',"Hmm... getting warmer. I'm not convinced yet. Add a little more strength.");else setGuardian('strong',"Now THAT is better! Strong work. Keep it unique for every account.");}
 pw.addEventListener('input',()=>evaluate(pw.value));$('toggle').onclick=()=>{pw.type=pw.type==='password'?'text':'password';$('toggle').setAttribute('aria-label',pw.type==='text'?'Hide password':'Show password')};$('clear').onclick=()=>{pw.value='';evaluate('');pw.focus()};$('length').oninput=e=>$('lengthValue').textContent=e.target.value;
 function random(n){const a=new Uint8Array(1),limit=256-256%n;let x;do{crypto.getRandomValues(a);x=a[0]}while(x>=limit);return x%n}
 function generate(){let chars='abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ';if($('numbers').checked)chars+='23456789';if($('symbols').checked)chars+='!@#$%^&*()-_=+?';let s='';for(let i=0;i<+$('length').value;i++)s+=chars[random(chars.length)];$('generated').textContent=s}
